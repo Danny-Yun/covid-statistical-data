@@ -1,4 +1,6 @@
+import 'package:covid_statistical_data/components/CovidStatisticViewer.dart';
 import 'package:covid_statistical_data/controller/CovidStatisticsController.dart';
+import 'package:covid_statistical_data/utils/ArrowClipPath.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -44,6 +46,16 @@ class Situation extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40),
                   topRight: Radius.circular(40),
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      _todayStatistics(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -118,46 +130,63 @@ class Situation extends StatelessWidget {
       Positioned(
         top: headerTopZone + 80,
         right: 25,
-        child: Column(
-          children: [
-            Text(
-              '확진자',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(height: 5),
-            Row(
-              children: [
-                Icon(
-                  Icons.arrow_drop_up_outlined,
-                  size: 40,
-                  color: Colors.red,
-                ),
-                Text(
-                  '1,627',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                    fontSize: 50,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            Text(
-              '${info.decideCnt}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 20,
-              ),
-            ),
-          ],
+        child: CovidStatisticViewer(
+          title: '확진자',
+          addedCount: 1627,
+          totalCount: 187362,
+          upDown: ArrowDirection.UP,
+          titleColor: Colors.white,
+          subValueColor: Colors.white,
         ),
       ),
     ];
+  }
+
+  Widget _todayStatistics() {
+    return Row(
+      children: [
+        // 격리해제 인원
+        Expanded(
+          child: CovidStatisticViewer(
+            title: '격리해제',
+            addedCount: 1040,
+            upDown: ArrowDirection.UP,
+            totalCount: 165245,
+            dense: true,
+          ),
+        ),
+        VerticalDivider(),
+        // 검사 중인 인원
+        Expanded(
+          child: CovidStatisticViewer(
+            title: '검사 중',
+            addedCount: 3314,
+            upDown: ArrowDirection.DOWN,
+            totalCount: 274367,
+            dense: true,
+          ),
+        ),
+        VerticalDivider(),
+        // 사망 인원
+        Expanded(
+          child: CovidStatisticViewer(
+            title: '사망자',
+            addedCount: 2,
+            upDown: ArrowDirection.UP,
+            totalCount: 967,
+            dense: true,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget verticalDivider() {
+    return Container(
+      height: 60,
+      child: VerticalDivider(
+        color: Colors.grey.withOpacity(0.5),
+      ),
+    );
   }
 }

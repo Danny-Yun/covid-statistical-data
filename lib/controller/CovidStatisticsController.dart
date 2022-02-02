@@ -1,4 +1,4 @@
-import 'package:covid_statistical_data/model/CovidStatistics.dart';
+import 'package:covid_statistical_data/model/CovidStatisticsModel.dart';
 import 'package:covid_statistical_data/repository/CovidStatisticsRepository.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
