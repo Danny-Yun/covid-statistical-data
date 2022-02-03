@@ -22,8 +22,6 @@ class CovidStatisticViewer extends StatelessWidget {
     this.subValueColor = Colors.black,
   });
 
-  var info = CovidStatisticsController.to.covidStatistic.value;
-
   @override
   Widget build(BuildContext context) {
     var color = Colors.black;

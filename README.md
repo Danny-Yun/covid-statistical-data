@@ -1,16 +1,5 @@
-# covid_statistical_data
+# :bar_chart: covid_statistical_data
 
-A new Flutter project.
+## :heavy_check_mark: [Situation.dart](https://github.com/Danny-Yun/covid-statistical-data/blob/master/lib/Situation.dart)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![covid-statistical-data-situation](https://user-images.githubusercontent.com/86466976/152288068-28fd0beb-d726-41d5-9669-c5c7b3ed4923.png)

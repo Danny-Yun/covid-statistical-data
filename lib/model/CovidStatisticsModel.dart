@@ -17,6 +17,11 @@ class Covid19StatisticsModel {
   String? stateTime;
   String? updateDt;
 
+  double calcDecideCnt = 0;
+  double calcExamCnt = 0;
+  double calcDeathCnt = 0;
+  double calcClearCnt = 0;
+
   Covid19StatisticsModel({
     this.accDefRate,
     this.accExamCnt,

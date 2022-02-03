@@ -1,12 +1,12 @@
+import 'package:covid_statistical_data/components/BarChart.dart';
 import 'package:covid_statistical_data/components/CovidStatisticViewer.dart';
 import 'package:covid_statistical_data/controller/CovidStatisticsController.dart';
 import 'package:covid_statistical_data/utils/ArrowClipPath.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-var info = CovidStatisticsController.to.covidStatistic.value;
-
-class Situation extends StatelessWidget {
+class Situation extends GetView<CovidStatisticsController> {
   Situation({Key? key}) : super(key: key);
   double headerTopZone = 0;
 
@@ -54,6 +54,8 @@ class Situation extends StatelessWidget {
                   child: Column(
                     children: [
                       _todayStatistics(),
+                      SizedBox(height: 25),
+                      _covidTrendsChart(),
                     ],
                   ),
                 ),
@@ -103,7 +105,7 @@ class Situation extends StatelessWidget {
               color: Colors.black.withOpacity(0.3),
             ),
             child: Text(
-              '${info.stateTime} 기준',
+              '02.03 09:00 기준',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -136,7 +138,7 @@ class Situation extends StatelessWidget {
         Expanded(
           child: CovidStatisticViewer(
             title: '격리해제',
-            addedCount: 3040,
+            addedCount: 3072,
             upDown: ArrowDirection.UP,
             totalCount: 765245,
             dense: true,
@@ -162,6 +164,30 @@ class Situation extends StatelessWidget {
             upDown: ArrowDirection.MIDDLE,
             totalCount: 6812,
             dense: true,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _covidTrendsChart() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          '확진자 추이',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        AspectRatio(
+          aspectRatio: 1.1,
+          child: Card(
+            elevation: 0,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            child: const CovidBarChart(),
           ),
         ),
       ],

@@ -4,7 +4,7 @@ import 'package:xml/xml.dart';
 
 class CovidStatisticsRepository {
   String covidUrl =
-      "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson?ServiceKey=FMdeBTwXrIXJqIqhl%2BnOMjEj0mKsTW9ao%2BIbQmICQRSlI5q9zGZEbC0Zr%2FyLp%2Fb5SYR7BaFe7yj9iqSD3a6uNw%3D%3D&startCreateDt=20220101&endCreateDt=20220107";
+      "http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson?ServiceKey=FMdeBTwXrIXJqIqhl%2BnOMjEj0mKsTW9ao%2BIbQmICQRSlI5q9zGZEbC0Zr%2FyLp%2Fb5SYR7BaFe7yj9iqSD3a6uNw%3D%3D";
 
   late var dio = Dio();
   var startDate = "";
