@@ -60,19 +60,6 @@ class Situation extends StatelessWidget {
               ),
             ),
           )
-          // Obx(() {
-          //   var info = CovidStatisticsController.to.covidStatistic.value;
-          //   return Column(
-          //     children: [
-          //       infoWidget('기준일', info.stateDt ?? ''),
-          //       infoWidget('기준시간', info.stateTime ?? ''),
-          //       infoWidget('확진자 수', info.decideCnt ?? ''),
-          //       infoWidget('사망자 수', info.deathCnt ?? ''),
-          //       infoWidget('누적 검사 수', info.accExamCnt ?? ''),
-          //       infoWidget('누적 확진률', info.accDefRate ?? ''),
-          //     ],
-          //   );
-          // }),
         ],
       ),
     );
@@ -132,8 +119,8 @@ class Situation extends StatelessWidget {
         right: 25,
         child: CovidStatisticViewer(
           title: '확진자',
-          addedCount: 1627,
-          totalCount: 187362,
+          addedCount: 22907,
+          totalCount: 907214,
           upDown: ArrowDirection.UP,
           titleColor: Colors.white,
           subValueColor: Colors.white,
@@ -149,9 +136,9 @@ class Situation extends StatelessWidget {
         Expanded(
           child: CovidStatisticViewer(
             title: '격리해제',
-            addedCount: 1040,
+            addedCount: 3040,
             upDown: ArrowDirection.UP,
-            totalCount: 165245,
+            totalCount: 765245,
             dense: true,
           ),
         ),
@@ -160,9 +147,9 @@ class Situation extends StatelessWidget {
         Expanded(
           child: CovidStatisticViewer(
             title: '검사 중',
-            addedCount: 3314,
+            addedCount: 33314,
             upDown: ArrowDirection.DOWN,
-            totalCount: 274367,
+            totalCount: 1274367,
             dense: true,
           ),
         ),
@@ -171,9 +158,9 @@ class Situation extends StatelessWidget {
         Expanded(
           child: CovidStatisticViewer(
             title: '사망자',
-            addedCount: 2,
-            upDown: ArrowDirection.UP,
-            totalCount: 967,
+            addedCount: 25,
+            upDown: ArrowDirection.MIDDLE,
+            totalCount: 6812,
             dense: true,
           ),
         ),

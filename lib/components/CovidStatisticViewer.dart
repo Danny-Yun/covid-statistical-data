@@ -1,5 +1,6 @@
 import 'package:covid_statistical_data/controller/CovidStatisticsController.dart';
 import 'package:covid_statistical_data/utils/ArrowClipPath.dart';
+import 'package:covid_statistical_data/utils/Data_utils.dart';
 import 'package:flutter/material.dart';
 
 class CovidStatisticViewer extends StatelessWidget {
@@ -28,7 +29,7 @@ class CovidStatisticViewer extends StatelessWidget {
     var color = Colors.black;
     switch (upDown) {
       case ArrowDirection.UP:
-        color = Color(0xffcf5f51);
+        color = Colors.red;
         break;
       case ArrowDirection.DOWN:
         color = Color(0xff3749be);
@@ -51,27 +52,27 @@ class CovidStatisticViewer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ClipPath(
-              clipper: ArrowClipPath(),
+              clipper: ArrowClipPath(direction: upDown),
               child: Container(
                 width: dense ? 10 : 20,
                 height: dense ? 10 : 20,
                 color: color,
               ),
             ),
-            SizedBox(width: 5),
+            SizedBox(width: 7),
             Text(
-              addedCount.toString(),
+              DataUtils.numberFormat(addedCount),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: color,
-                fontSize: dense ? 25 : 50,
+                fontSize: dense ? 25 : 40,
               ),
             ),
           ],
         ),
         SizedBox(height: 7),
         Text(
-          totalCount.toString(),
+          DataUtils.numberFormat(totalCount),
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: subValueColor,
