@@ -1,19 +1,37 @@
+import 'package:covid_statistical_data/model/CovidStatisticsModel.dart';
+import 'package:covid_statistical_data/utils/data_utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class CovidBarChart extends StatelessWidget {
-  const CovidBarChart({Key? key}) : super(key: key);
+  CovidBarChart({Key? key, required this.covidDatas, required this.maxY})
+      : super(key: key);
+
+  final List<Covid19StatisticsModel> covidDatas;
+  final double maxY;
 
   @override
   Widget build(BuildContext context) {
+    print('maxY - $maxY');
+    int x = 0;
     return BarChart(
       BarChartData(
         barTouchData: barTouchData,
         titlesData: titlesData,
         borderData: borderData,
-        barGroups: barGroups,
+        barGroups: this.covidDatas.map<BarChartGroupData>((data) {
+          return BarChartGroupData(
+            x: x++,
+            barRods: [
+              BarChartRodData(
+                  y: data.calcDecideCnt,
+                  colors: [Colors.lightBlueAccent, Colors.greenAccent]),
+            ],
+            showingTooltipIndicators: [0],
+          );
+        }).toList(),
         alignment: BarChartAlignment.spaceAround,
-        maxY: 30000,
+        maxY: maxY * 1.2,
         // 기본값으로 나와있는 그리드 삭제
         gridData: FlGridData(show: false),
       ),
@@ -54,24 +72,8 @@ class CovidBarChart extends StatelessWidget {
           ),
           margin: 20,
           getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return '01.28';
-              case 1:
-                return '01.29';
-              case 2:
-                return '01.30';
-              case 3:
-                return '01.31';
-              case 4:
-                return '02.01';
-              case 5:
-                return '02.02';
-              case 6:
-                return '02.03';
-              default:
-                return '';
-            }
+            return DataUtils.simpleDayFormat(
+                covidDatas[value.toInt()].stateDt!);
           },
         ),
         leftTitles: SideTitles(showTitles: false),
@@ -82,63 +84,4 @@ class CovidBarChart extends StatelessWidget {
   FlBorderData get borderData => FlBorderData(
         show: false,
       );
-
-  List<BarChartGroupData> get barGroups => [
-        BarChartGroupData(
-          x: 0,
-          barRods: [
-            BarChartRodData(
-                y: 16094, colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 1,
-          barRods: [
-            BarChartRodData(
-                y: 17513, colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 2,
-          barRods: [
-            BarChartRodData(
-                y: 17528, colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 3,
-          barRods: [
-            BarChartRodData(
-                y: 17079, colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 4,
-          barRods: [
-            BarChartRodData(
-                y: 18341, colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 5,
-          barRods: [
-            BarChartRodData(
-                y: 20269, colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-        BarChartGroupData(
-          x: 6,
-          barRods: [
-            BarChartRodData(
-                y: 22907, colors: [Colors.lightBlueAccent, Colors.greenAccent])
-          ],
-          showingTooltipIndicators: [0],
-        ),
-      ];
 }

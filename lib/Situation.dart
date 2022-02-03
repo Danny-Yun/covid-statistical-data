@@ -1,8 +1,7 @@
 import 'package:covid_statistical_data/components/BarChart.dart';
 import 'package:covid_statistical_data/components/CovidStatisticViewer.dart';
 import 'package:covid_statistical_data/controller/CovidStatisticsController.dart';
-import 'package:covid_statistical_data/utils/ArrowClipPath.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:covid_statistical_data/utils/Data_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -54,7 +53,7 @@ class Situation extends GetView<CovidStatisticsController> {
                   child: Column(
                     children: [
                       _todayStatistics(),
-                      SizedBox(height: 25),
+                      SizedBox(height: 30),
                       _covidTrendsChart(),
                     ],
                   ),
@@ -104,12 +103,14 @@ class Situation extends GetView<CovidStatisticsController> {
               borderRadius: BorderRadius.circular(20),
               color: Colors.black.withOpacity(0.3),
             ),
-            child: Text(
-              '02.03 09:00 기준',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 14.5,
+            child: Obx(
+              () => Text(
+                controller.todayData.standardDayString,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 14.5,
+                ),
               ),
             ),
           ),
@@ -119,54 +120,63 @@ class Situation extends GetView<CovidStatisticsController> {
       Positioned(
         top: headerTopZone + 80,
         right: 25,
-        child: CovidStatisticViewer(
-          title: '확진자',
-          addedCount: 22907,
-          totalCount: 907214,
-          upDown: ArrowDirection.UP,
-          titleColor: Colors.white,
-          subValueColor: Colors.white,
+        child: Obx(
+          () => CovidStatisticViewer(
+            title: '확진자',
+            addedCount: controller.todayData.calcDecideCnt,
+            totalCount: DataUtils.simpleFormatStringToDouble(
+                controller.todayData.decideCnt),
+            titleColor: Colors.white,
+            subValueColor: Colors.white,
+            upDown:
+                controller.calculateUpDown(controller.todayData.calcDecideCnt),
+          ),
         ),
       ),
     ];
   }
 
   Widget _todayStatistics() {
-    return Row(
-      children: [
-        // 격리해제 인원
-        Expanded(
-          child: CovidStatisticViewer(
-            title: '격리해제',
-            addedCount: 3072,
-            upDown: ArrowDirection.UP,
-            totalCount: 765245,
-            dense: true,
+    return Obx(
+      () => Row(
+        children: [
+          // 격리해제 인원
+          Expanded(
+            child: CovidStatisticViewer(
+              title: '격리해제',
+              addedCount: 3072,
+              totalCount: 765245,
+              upDown:
+                  controller.calculateUpDown(controller.todayData.calcClearCnt),
+              dense: true,
+            ),
           ),
-        ),
-        VerticalDivider(),
-        // 검사 중인 인원
-        Expanded(
-          child: CovidStatisticViewer(
-            title: '검사 중',
-            addedCount: 33314,
-            upDown: ArrowDirection.DOWN,
-            totalCount: 1274367,
-            dense: true,
+          VerticalDivider(),
+          // 검사 중인 인원
+          Expanded(
+            child: CovidStatisticViewer(
+              title: '검사 중',
+              addedCount: 33314,
+              totalCount: 1274367,
+              upDown:
+                  controller.calculateUpDown(controller.todayData.calcExamCnt),
+              dense: true,
+            ),
           ),
-        ),
-        VerticalDivider(),
-        // 사망 인원
-        Expanded(
-          child: CovidStatisticViewer(
-            title: '사망자',
-            addedCount: 25,
-            upDown: ArrowDirection.MIDDLE,
-            totalCount: 6812,
-            dense: true,
+          VerticalDivider(),
+          // 사망 인원
+          Expanded(
+            child: CovidStatisticViewer(
+              title: '사망자',
+              addedCount: controller.todayData.calcDeathCnt,
+              totalCount: 6812,
+              upDown:
+                  controller.calculateUpDown(controller.todayData.calcDeathCnt),
+              dense: true,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -187,7 +197,13 @@ class Situation extends GetView<CovidStatisticsController> {
             elevation: 0,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            child: const CovidBarChart(),
+            child: Obx(
+              () => controller.weekData.length == 0
+                  ? Container()
+                  : CovidBarChart(
+                      covidDatas: controller.weekData,
+                      maxY: controller.maxDecideValue),
+            ),
           ),
         ),
       ],

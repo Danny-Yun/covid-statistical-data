@@ -1,3 +1,4 @@
+import 'package:covid_statistical_data/utils/Data_utils.dart';
 import 'package:covid_statistical_data/utils/xml_utils.dart';
 import 'package:xml/xml.dart';
 
@@ -54,7 +55,7 @@ class Covid19StatisticsModel {
       deathCnt: XmlUtils.searchResultForString(xml, "deathCnt"),
       decideCnt: XmlUtils.searchResultForString(xml, "decideCnt"),
       examCnt: XmlUtils.searchResultForString(xml, "examCnt"),
-      resutlNegCnt: XmlUtils.searchResultForString(xml, "resutlNegCnt"),
+      resutlNegCnt: XmlUtils.searchResultForString(xml, "resultNegCnt"),
       seq: XmlUtils.searchResultForString(xml, "seq"),
       stateDt: XmlUtils.searchResultForString(xml, "stateDt") != ''
           ? DateTime.parse(XmlUtils.searchResultForString(xml, "stateDt"))
@@ -63,4 +64,31 @@ class Covid19StatisticsModel {
       updateDt: XmlUtils.searchResultForString(xml, "updateDt"),
     );
   }
+
+  void updateCalcAboutYesterday(Covid19StatisticsModel yesterdayData) {
+    _updateCalcDecideCnt(yesterdayData.decideCnt!);
+    // _updateCalcExamCnt(yesterdayData.examCnt!);
+    _updateCalcDeathCnt(yesterdayData.deathCnt!);
+    // _updateCalcClearCnt(yesterdayData.clearCnt!);
+  }
+
+  void _updateCalcDecideCnt(String beforeCnt) {
+    calcDecideCnt = double.parse(decideCnt!) - double.parse(beforeCnt);
+  }
+
+  void _updateCalcExamCnt(String beforeCnt) {
+    calcExamCnt = double.parse(examCnt!) - double.parse(beforeCnt);
+  }
+
+  void _updateCalcDeathCnt(String beforeCnt) {
+    calcDeathCnt = double.parse(deathCnt!) - double.parse(beforeCnt);
+  }
+
+  void _updateCalcClearCnt(String beforeCnt) {
+    calcClearCnt = double.parse(clearCnt!) - double.parse(beforeCnt);
+  }
+
+  String get standardDayString => stateDt == null
+      ? ''
+      : '${DataUtils.simpleDayFormat(stateDt)} $stateTime 기준';
 }
