@@ -9,6 +9,7 @@ class CovidStatisticsController extends GetxController {
   Rx<Covid19StatisticsModel> _todayData = Covid19StatisticsModel().obs;
   RxList<Covid19StatisticsModel> _weekDatas = <Covid19StatisticsModel>[].obs;
   double maxDecideValue = 0;
+  RxBool loading = false.obs;
 
   @override
   void onInit() {
@@ -18,6 +19,9 @@ class CovidStatisticsController extends GetxController {
   }
 
   void fetchCovidState() async {
+    loading.value = true;
+    await Future.delayed(Duration(seconds: 2));
+
     var startDate = DateFormat('yyyyMMdd')
         .format(DateTime.now().subtract(Duration(days: 7)));
     // DateTime.now()를 통해 항상 endDate가 당일로 설정되도록
@@ -38,6 +42,7 @@ class CovidStatisticsController extends GetxController {
       _weekDatas.addAll(result.sublist(0, result.length - 1).reversed);
       _todayData(_weekDatas.last);
     }
+    loading.value = false;
   }
 
   Covid19StatisticsModel get todayData => _todayData.value;

@@ -30,39 +30,45 @@ class Situation extends GetView<CovidStatisticsController> {
       ),
       // body 영역을 앱바 뒤로 확장
       extendBodyBehindAppBar: true,
-      body: Stack(
-        children: [
-          ..._background(),
-          // 5. 흰색 배경
-          Positioned(
-            top: headerTopZone + 220,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-              ),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      _todayStatistics(),
-                      SizedBox(height: 30),
-                      _covidTrendsChart(),
-                    ],
+      body: Obx(() {
+        if (controller.loading.value) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return Stack(
+            children: [
+              ..._background(),
+              // 5. 흰색 배경
+              Positioned(
+                top: headerTopZone + 220,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      topRight: Radius.circular(40),
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          _todayStatistics(),
+                          SizedBox(height: 30),
+                          _covidTrendsChart(),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          );
+        }
+      }),
     );
   }
 
